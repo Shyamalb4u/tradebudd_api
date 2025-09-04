@@ -10,5 +10,6 @@ router.get("/login/:mail/:pass", userController.getLogin);
 router.post("/signup", userController.signup);
 router.post("/changePassword", userController.changePassword);
 router.post("/getDailyTips", userController.changePassword);
+router.post("/booking", userController.booking);
 
 module.exports = router;
