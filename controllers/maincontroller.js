@@ -134,19 +134,14 @@ exports.fcmToken = async (req, res, next) => {
   const token = req.body.token;
   try {
     await admin.messaging().subscribeToTopic(token, "allUsers");
-    res.status(200).send("Subscribed to topic");
-  } catch (error) {
-    console.error("Error subscribing to topic:", error);
-    res.status(500).send("Error subscribing");
-  }
-  try {
     const result = await new sql.Request()
       .input("publicKey", publicKey)
       .input("token", token)
       .execute("fcm_token_insert");
     res.status(200).json({ data: "Success" });
-  } catch (err) {
-    throw err;
+  } catch (error) {
+    console.error("Error subscribing to topic:", error);
+    res.status(500).send("Error subscribing");
   }
 };
 exports.getPendingActivation = (req, res, next) => {
