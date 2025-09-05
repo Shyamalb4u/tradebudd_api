@@ -144,6 +144,25 @@ exports.fcmToken = async (req, res, next) => {
     res.status(500).send("Error subscribing");
   }
 };
+exports.sendfcmMsg = async (req, res, next) => {
+  const message = {
+    notification: {
+      title: "🚀 Tips Update!",
+      body: "New Market Information / Tips",
+    },
+    topic: "allUsers",
+  };
+  admin
+    .messaging()
+    .send(message)
+    .then((response) => {
+      console.log("Message sent successfully:", response);
+    })
+    .catch((error) => {
+      console.error("Error sending message:", error);
+    });
+  res.status(200).send("Sent");
+};
 exports.getPendingActivation = (req, res, next) => {
   const publicKey = req.params.publicKey;
   new sql.Request()

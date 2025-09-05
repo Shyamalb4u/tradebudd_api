@@ -16,5 +16,6 @@ router.post("/changePassword", userController.changePassword);
 router.post("/getDailyTips", userController.changePassword);
 router.post("/booking", userController.booking);
 router.post("/fcmToken", userController.fcmToken);
+router.post("/sendfcmMsg", userController.sendfcmMsg);
 
 module.exports = router;
