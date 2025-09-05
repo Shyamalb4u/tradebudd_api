@@ -1,6 +1,13 @@
 const express = require("express");
 const sql = require("mssql");
 const dbconfig = require("../dbconfig");
+require("dotenv").config();
+const admin = require("firebase-admin");
+
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
 sql.connect(dbconfig, (err) => {
   if (err) {
@@ -117,6 +124,26 @@ exports.booking = async (req, res, next) => {
       .input("txn", txn)
       .input("mode", mode)
       .execute("SP_Activation");
+    res.status(200).json({ data: "Success" });
+  } catch (err) {
+    throw err;
+  }
+};
+exports.fcmToken = async (req, res, next) => {
+  const publicKey = req.body.publicKey;
+  const token = req.body.token;
+  try {
+    await admin.messaging().subscribeToTopic(token, "allUsers");
+    res.status(200).send("Subscribed to topic");
+  } catch (error) {
+    console.error("Error subscribing to topic:", error);
+    res.status(500).send("Error subscribing");
+  }
+  try {
+    const result = await new sql.Request()
+      .input("publicKey", publicKey)
+      .input("token", token)
+      .execute("fcm_token_insert");
     res.status(200).json({ data: "Success" });
   } catch (err) {
     throw err;
