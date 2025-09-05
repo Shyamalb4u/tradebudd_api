@@ -164,6 +164,11 @@ exports.sendfcmMsg = async (req, res, next) => {
       title: "🚀 Tips Update!",
       body: "New Market Information / Tips",
     },
+    webpush: {
+      fcmOptions: {
+        link: "https://tradebuddy.biz/#/tips", // this acts like click_action
+      },
+    },
     topic: "allUsers",
   };
   admin
