@@ -144,11 +144,26 @@ exports.fcmToken = async (req, res, next) => {
     res.status(500).send("Error subscribing");
   }
 };
+exports.sendTips = async (req, res, next) => {
+  const heading = req.body.heading;
+  const details = req.body.details;
+  try {
+    const result = await new sql.Request()
+      .input("heading", heading)
+      .input("details", details)
+      .execute("tips_insert");
+    res.status(200).json({ data: "Success" });
+  } catch (error) {
+    console.error("Error subscribing to topic:", error);
+    res.status(500).send("Error subscribing");
+  }
+};
 exports.sendfcmMsg = async (req, res, next) => {
   const message = {
     notification: {
       title: "🚀 Tips Update!",
       body: "New Market Information / Tips",
+      click_action: "https://tradebuddy.biz/#/tips",
     },
     topic: "allUsers",
   };
