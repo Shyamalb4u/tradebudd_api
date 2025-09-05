@@ -163,7 +163,6 @@ exports.sendfcmMsg = async (req, res, next) => {
     notification: {
       title: "🚀 Tips Update!",
       body: "New Market Information / Tips",
-      click_action: "https://tradebuddy.biz/#/tips",
     },
     topic: "allUsers",
   };
