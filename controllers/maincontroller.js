@@ -161,7 +161,7 @@ exports.sendTips = async (req, res, next) => {
 exports.sendfcmMsg = async (req, res, next) => {
   const message = {
     notification: {
-      title: "🚀 Tips Update!",
+      title: "🚀 TradeBuddy Tips Update!",
       body: "New Market Information / Tips",
     },
     topic: "allUsers",
