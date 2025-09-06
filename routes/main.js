@@ -20,5 +20,6 @@ router.post("/booking", userController.booking);
 router.post("/fcmToken", userController.fcmToken);
 router.post("/sendfcmMsg", userController.sendfcmMsg);
 router.post("/sendTips", userController.sendTips);
+router.post("/insertDReward", userController.insertDReward);
 
 module.exports = router;

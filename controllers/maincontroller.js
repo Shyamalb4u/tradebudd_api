@@ -158,6 +158,20 @@ exports.sendTips = async (req, res, next) => {
     res.status(500).send("Error subscribing");
   }
 };
+exports.insertDReward = async (req, res, next) => {
+  const publicKey = req.body.publicKey;
+  const token = req.body.token;
+  try {
+    const result = await new sql.Request()
+      .input("publicKey", publicKey)
+      .input("token", token)
+      .execute("insert_DailyRewardTips");
+    res.status(200).json({ data: "Success" });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Error");
+  }
+};
 exports.sendfcmMsg = async (req, res, next) => {
   const message = {
     notification: {
