@@ -10,6 +10,7 @@ router.get(
   "/pending_activation/:publicKey",
   userController.getPendingActivation
 );
+router.get("/getTips/:publicKey", userController.getTips);
 //////////////////
 router.post("/signup", userController.signup);
 router.post("/changePassword", userController.changePassword);
