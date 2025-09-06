@@ -209,3 +209,19 @@ exports.getTips = (req, res, next) => {
       throw err;
     });
 };
+exports.getRewardTips = (req, res, next) => {
+  const publicKey = req.params.publicKey;
+  new sql.Request()
+    .input("publicKey", publicKey)
+    .execute("get_DailyRewardTips")
+    .then((result) => {
+      if (result.recordset[0]) {
+        res.status(200).json({ data: result.recordset });
+      } else {
+        res.status(404).json({ data: "No Data" });
+      }
+    })
+    .catch((err) => {
+      throw err;
+    });
+};

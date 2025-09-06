@@ -11,6 +11,7 @@ router.get(
   userController.getPendingActivation
 );
 router.get("/getTips/:publicKey", userController.getTips);
+router.get("/getRewardTips/:publicKey", userController.getRewardTips);
 //////////////////
 router.post("/signup", userController.signup);
 router.post("/changePassword", userController.changePassword);
