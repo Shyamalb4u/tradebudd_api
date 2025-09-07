@@ -12,6 +12,7 @@ router.get(
 );
 router.get("/getTips/:publicKey", userController.getTips);
 router.get("/getRewardTips/:publicKey", userController.getRewardTips);
+router.get("/getDailyRewardList/:publicKey", userController.getDailyRewardList);
 //////////////////
 router.post("/signup", userController.signup);
 router.post("/changePassword", userController.changePassword);
