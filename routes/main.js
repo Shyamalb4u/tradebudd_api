@@ -26,5 +26,6 @@ router.post("/fcmToken", userController.fcmToken);
 router.post("/sendfcmMsg", userController.sendfcmMsg);
 router.post("/sendTips", userController.sendTips);
 router.post("/insertDReward", userController.insertDReward);
+router.post("/withdrawal", userController.withdrawal);
 
 module.exports = router;
