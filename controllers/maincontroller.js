@@ -193,11 +193,11 @@ exports.sendfcmMsg = async (req, res, next) => {
 };
 exports.withdrawal = async (req, res, next) => {
   const user = req.body.publicKey;
-  const amt = req.body.amount;
+  const amts = req.body.amount;
   try {
     const result = await new sql.Request()
       .input("publicKey", user)
-      .input("amount", amt)
+      .input("amount", amts)
       .execute("sp_withdrawal");
     res.status(200).json({ data: "Success" });
   } catch (err) {
