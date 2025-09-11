@@ -18,6 +18,7 @@ router.get(
   userController.getDashboardBalance
 );
 router.get("/getMyPackages/:phrases", userController.getMyPackages);
+router.get("/getDirect/:uid", userController.getDirect);
 //////////////////
 router.post("/signup", userController.signup);
 router.post("/changePassword", userController.changePassword);
