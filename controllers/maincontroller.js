@@ -322,3 +322,18 @@ exports.getDownline = (req, res, next) => {
       throw err;
     });
 };
+exports.getIncomeStatement = (req, res, next) => {
+  const uid = req.params.uid;
+  const type = req.params.type;
+  console.log(uid);
+  new sql.Request()
+    .input("uid", uid)
+    .input("type", type)
+    .execute("get_RewardStatement")
+    .then((result) => {
+      res.status(200).json({ data: result.recordset });
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
