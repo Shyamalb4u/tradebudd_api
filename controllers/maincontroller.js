@@ -337,3 +337,24 @@ exports.getIncomeStatement = (req, res, next) => {
       throw err;
     });
 };
+exports.insertTransaction = async (req, res, next) => {
+  const publicKey = req.body.publicKey;
+  const amt = req.body.amt;
+  const txn = req.body.txn;
+  const details = req.body.details;
+  const symbol = req.body.symbol;
+  const status = req.body.status;
+  try {
+    const result = await new sql.Request()
+      .input("publicKey", publicKey)
+      .input("txn", txn)
+      .input("details", details)
+      .input("amount", amt)
+      .input("symbol", symbol)
+      .input("status", status)
+      .execute("insert_transaction");
+    res.status(200).json({ data: "Success" });
+  } catch (err) {
+    throw err;
+  }
+};

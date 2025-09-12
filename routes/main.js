@@ -31,5 +31,6 @@ router.post("/sendfcmMsg", userController.sendfcmMsg);
 router.post("/sendTips", userController.sendTips);
 router.post("/insertDReward", userController.insertDReward);
 router.post("/withdrawal", userController.withdrawal);
+router.post("/transfer", userController.insertTransaction);
 
 module.exports = router;
