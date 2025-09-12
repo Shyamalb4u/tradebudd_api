@@ -309,3 +309,16 @@ exports.getDirect = (req, res, next) => {
       throw err;
     });
 };
+exports.getDownline = (req, res, next) => {
+  const uid = req.params.uid;
+  console.log(uid);
+  new sql.Request()
+    .input("uid", uid)
+    .execute("getDownline_list")
+    .then((result) => {
+      res.status(200).json({ data: result.recordset });
+    })
+    .catch((err) => {
+      throw err;
+    });
+};

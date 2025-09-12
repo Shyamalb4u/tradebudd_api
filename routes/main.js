@@ -19,6 +19,7 @@ router.get(
 );
 router.get("/getMyPackages/:phrases", userController.getMyPackages);
 router.get("/getDirect/:uid", userController.getDirect);
+router.get("/getDownline/:uid", userController.getDownline);
 //////////////////
 router.post("/signup", userController.signup);
 router.post("/changePassword", userController.changePassword);
