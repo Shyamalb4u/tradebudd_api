@@ -5,6 +5,7 @@ const sql = require("mssql");
 const dbconfig = require("./dbconfig");
 const userRouter = require("./routes/main");
 //const schedule = require("node-schedule");
+//Node error
 const app = express();
 app.use(bodyParser.json());
 app.use((req, res, next) => {
