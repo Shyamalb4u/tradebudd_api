@@ -226,7 +226,7 @@ exports.getTips = (req, res, next) => {
     .input("publicKey", publicKey)
     .execute("get_tips")
     .then((result) => {
-      if (result.recordset[0]) {
+      if (result) {
         res.status(200).json({ data: result.recordset });
       } else {
         res.status(404).json({ data: "No Data" });
