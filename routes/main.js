@@ -32,6 +32,6 @@ router.post("/sendTips", userController.sendTips);
 router.post("/insertDReward", userController.insertDReward);
 router.post("/withdrawal", userController.withdrawal);
 router.post("/transfer", userController.insertTransaction);
-router.post("/transfer", userController.sendMail);
+router.post("/sendMail", userController.sendMail);
 
 module.exports = router;
