@@ -392,7 +392,7 @@ exports.sendMail = async (req, res, next) => {
   try {
     const info = await transporter.sendMail({
       from: '"Trade Buddy" support@tradebuddy.biz', // sender address
-      toMail, // receiver
+      to: toMail, // receiver
       subject, // email subject
       html: htmlTemplate, // email body as HTML
     });
