@@ -385,7 +385,7 @@ exports.sendMail = async (req, res, next) => {
        Password : ${pass}<br />
        Refer UID : ${uid}
       </blockquote>
-      <p style="margin-top:20px;">Best Regards,<br/>🔑 Change your password frequently.</p>
+      <p style="margin-top:20px;">www.tradebuddy.biz<br/>🔑 Change your password frequently.</p>
       <p style="margin-top:20px;">Best Regards,<br/>🚀 Team Trade Buddy</p>
     </div>
   `;
