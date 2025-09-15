@@ -17,7 +17,9 @@ sql.connect(dbconfig, (err) => {
 });
 
 const transporter = nodemailer.createTransport({
-  service: "smtppro.zoho.in", // you can use "Outlook", "Yahoo", or a custom SMTP
+  host: "smtppro.zoho.in",
+  port: 465, // use 465 for SSL, 587 for TLS
+  secure: true, // you can use "Outlook", "Yahoo", or a custom SMTP
   auth: {
     user: "support@tradebuddy.biz",
     pass: "4g9eRnRhhLps", // ⚠️ For Gmail, use App Password (not normal password)
