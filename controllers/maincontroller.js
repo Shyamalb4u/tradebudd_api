@@ -3,6 +3,7 @@ const sql = require("mssql");
 const dbconfig = require("../dbconfig");
 require("dotenv").config();
 const admin = require("firebase-admin");
+const nodemailer = require("nodemailer");
 
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 admin.initializeApp({
@@ -13,6 +14,14 @@ sql.connect(dbconfig, (err) => {
   if (err) {
     throw err;
   }
+});
+
+const transporter = nodemailer.createTransport({
+  service: "smtppro.zoho.in", // you can use "Outlook", "Yahoo", or a custom SMTP
+  auth: {
+    user: "support@tradebuddy.biz",
+    pass: "4g9eRnRhhLps", // ⚠️ For Gmail, use App Password (not normal password)
+  },
 });
 
 exports.signup = async (req, res, next) => {
@@ -356,5 +365,41 @@ exports.insertTransaction = async (req, res, next) => {
     res.status(200).json({ data: "Success" });
   } catch (err) {
     throw err;
+  }
+};
+exports.sendMail = async (req, res, next) => {
+  const toMail = req.body.mail;
+  const uid = req.body.uid;
+  const name = req.body.name;
+  const pass = req.body.pass;
+  const subject = "Registration Successful. Welcome To Trade Buddy";
+  const htmlTemplate = `
+    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+      <h2 style="color:#0066cc;">Hello ${name},</h2>
+      <p>Welcome to Trade Buddy</p>
+      <blockquote style="border-left: 4px solid #0066cc; padding-left: 10px; color: #555;">
+       Your Trade Buddy Login Details :<br />
+       User Name : ${toMail} <br />
+       Password : ${pass}<br />
+       Refer UID : ${uid}
+      </blockquote>
+      <p style="margin-top:20px;">Best Regards,<br/>🔑 Change your password frequently.</p>
+      <p style="margin-top:20px;">Best Regards,<br/>🚀 Team Trade Buddy</p>
+    </div>
+  `;
+  try {
+    const info = await transporter.sendMail({
+      from: '"Trade Buddy" support@tradebuddy.biz', // sender address
+      toMail, // receiver
+      subject, // email subject
+      html: htmlTemplate, // email body as HTML
+    });
+
+    res.json({ success: true, msg: "Email sent successfully" });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ success: false, msg: "Failed to send email", error: err });
   }
 };
