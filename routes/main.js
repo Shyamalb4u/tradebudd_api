@@ -33,5 +33,6 @@ router.post("/insertDReward", userController.insertDReward);
 router.post("/withdrawal", userController.withdrawal);
 router.post("/transfer", userController.insertTransaction);
 router.post("/sendMail", userController.sendMail);
+router.post("/passRecover", userController.sendPassRecoveryLink);
 
 module.exports = router;

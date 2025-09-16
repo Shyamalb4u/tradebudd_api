@@ -4,6 +4,8 @@ const dbconfig = require("../dbconfig");
 require("dotenv").config();
 const admin = require("firebase-admin");
 const nodemailer = require("nodemailer");
+const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 admin.initializeApp({
@@ -403,5 +405,61 @@ exports.sendMail = async (req, res, next) => {
     res
       .status(500)
       .json({ success: false, msg: "Failed to send email", error: err });
+  }
+};
+
+exports.sendPassRecoveryLink = async (req, res, next) => {
+  const mail = req.body.mail;
+
+  try {
+    const rawToken = crypto.randomBytes(32).toString("hex");
+    const tokenHash = crypto
+      .createHash("sha256")
+      .update(rawToken)
+      .digest("hex");
+    const expires = new Date(Date.now() + 60 * 60 * 1000); // 10 min
+    const result = await new sql.Request()
+      .input("mail", mail)
+      .input("txnHX", tokenHash)
+      .input("exp", expires)
+      .execute("insert_password_token");
+
+    const resetLink = `https://tradebuddy.biz//reset-password?token=${rawToken}&email=${encodeURIComponent(
+      mail
+    )}`;
+    //////
+    const subject = "Reset Password Request. Trade Buddy Security";
+    const htmlTemplate = `
+    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+      <h2 style="color:#0066cc;">Please click the link bellow to reset your password</h2>
+      <p>The link will expire in 10 minutes.</p>
+      <blockquote style="border-left: 4px solid #0066cc; padding-left: 10px; color: #555;">
+       Your Trade Buddy Login Details :<br />
+       Reset Link : ${resetLink} <br />
+     
+      </blockquote>
+      <p style="margin-top:20px;">www.tradebuddy.biz<br/>🔑 Change your password frequently.</p>
+      <p style="margin-top:20px;">Best Regards,<br/>🚀 Team Trade Buddy</p>
+    </div>
+  `;
+    try {
+      const info = await transporter.sendMail({
+        from: '"Trade Buddy" support@tradebuddy.biz', // sender address
+        to: mail, // receiver
+        subject, // email subject
+        html: htmlTemplate, // email body as HTML
+      });
+
+      res.json({ success: true, msg: "Email sent successfully" });
+    } catch (err) {
+      console.error(err);
+      res
+        .status(500)
+        .json({ success: false, msg: "Failed to send email", error: err });
+    }
+
+    res.status(200).json({ data: "Success" });
+  } catch (err) {
+    throw err;
   }
 };
