@@ -34,6 +34,6 @@ router.post("/withdrawal", userController.withdrawal);
 router.post("/transfer", userController.insertTransaction);
 router.post("/sendMail", userController.sendMail);
 router.post("/passRecover", userController.sendPassRecoveryLink);
-// router.post("/resetPassword", userController.resetPassword);
+router.post("/resetPassword", userController.resetPassword);
 
 module.exports = router;
