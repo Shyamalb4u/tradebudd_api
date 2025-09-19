@@ -468,22 +468,13 @@ exports.resetPassword = async (req, res, next) => {
   const token = req.body.token;
   const pass = req.body.pass;
   try {
-    console.log(token);
     const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
-    console.log(tokenHash);
-    const result =
-      await sql.query`SELECT * FROM password_reset WHERE mail like ${mail} AND tokenHX like ${tokenHash} AND exp > ${new Date()}`;
-    // const result =
-    //   await sql.query`SELECT * FROM memberjoin WHERE mail like ${mail} AND dates < GETDATE()`;
-
-    if (result.recordset.length === 0) {
-      await sql.query`delete from password_reset WHERE mail = ${mail}`;
-      return res.status(400).json({ error: "Invalid or expired token" });
-    }
-    await sql.query`update memberJoin set pass=${pass} WHERE mail = ${mail}`;
-    await sql.query`delete from password_reset WHERE mail = ${mail}`;
-
-    res.json({ success: true, message: "Password updated" });
+    const result = await new sql.Request()
+      .input("mail", mail)
+      .input("token", tokenHash)
+      .input("pass", pass)
+      .execute("SP_changePassword_byToken");
+    res.status(200).json({ data: result.recordset });
   } catch (err) {
     console.log(err.toString());
     res.status(500).json({ error: "Server error" });
