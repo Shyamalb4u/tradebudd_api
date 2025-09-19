@@ -424,7 +424,7 @@ exports.sendPassRecoveryLink = async (req, res, next) => {
       .input("exp", expires)
       .execute("insert_password_token");
 
-    const resetLink = `https://tradebuddy.biz//reset-password?token=${rawToken}&email=${encodeURIComponent(
+    const resetLink = `https://tradebuddy.biz/reset-password?token=${rawToken}&email=${encodeURIComponent(
       mail
     )}`;
     //////
