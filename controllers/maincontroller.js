@@ -463,37 +463,37 @@ exports.sendPassRecoveryLink = async (req, res, next) => {
   }
 };
 
-exports.resetPassword = async (req, res, next) => {
-  const mail = req.body.mail;
-  const token = req.body.token;
-  const pass = req.body.pass;
-  try {
-    const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
-    const result = await sql.query`
-      SELECT * FROM password_reset 
-      WHERE mail = ${mail}
-      AND tokenHX = ${tokenHash}
-      AND exp > GETDATE()
-    `;
+// exports.resetPassword = async (req, res, next) => {
+//   const mail = req.body.mail;
+//   const token = req.body.token;
+//   const pass = req.body.pass;
+//   try {
+//     const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+//     const result = await sql.query`
+//       SELECT * FROM password_reset
+//       WHERE mail = ${mail}
+//       AND tokenHX = ${tokenHash}
+//       AND exp > GETDATE()
+//     `;
 
-    if (result.recordset.length === 0) {
-      await sql.query`
-      delete from password_reset      
-      WHERE mail = ${mail}
-    `;
-      return res.status(400).json({ error: "Invalid or expired token" });
-    }
-    await sql.query`
-      update memberJoin set pass=${pass}      
-      WHERE mail = ${mail}
-    `;
-    await sql.query`
-      delete from password_reset      
-      WHERE mail = ${mail}
-    `;
+//     if (result.recordset.length === 0) {
+//       await sql.query`
+//       delete from password_reset
+//       WHERE mail = ${mail}
+//     `;
+//       return res.status(400).json({ error: "Invalid or expired token" });
+//     }
+//     await sql.query`
+//       update memberJoin set pass=${pass}
+//       WHERE mail = ${mail}
+//     `;
+//     await sql.query`
+//       delete from password_reset
+//       WHERE mail = ${mail}
+//     `;
 
-    res.json({ success: true, message: "Password updated" });
-  } catch (err) {
-    res.status(500).json({ error: "Server error" });
-  }
-};
+//     res.json({ success: true, message: "Password updated" });
+//   } catch (err) {
+//     res.status(500).json({ error: "Server error" });
+//   }
+// };
