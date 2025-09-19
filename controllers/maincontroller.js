@@ -433,8 +433,7 @@ exports.sendPassRecoveryLink = async (req, res, next) => {
     <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
       <h2 style="color:#0066cc;">Please click the link bellow to reset your password</h2>
       <p>The link will expire in 10 minutes.</p>
-      <blockquote style="border-left: 4px solid #0066cc; padding-left: 10px; color: #555;">
-       Your Trade Buddy Login Details :<br />
+      <blockquote style="border-left: 4px solid #0066cc; padding-left: 10px; color: #555;">      
        Reset Link : ${resetLink} <br />
      
       </blockquote>
@@ -461,5 +460,40 @@ exports.sendPassRecoveryLink = async (req, res, next) => {
     res.status(200).json({ data: "Success" });
   } catch (err) {
     throw err;
+  }
+};
+
+exports.resetPassword = async (req, res, next) => {
+  const mail = req.body.mail;
+  const token = req.body.token;
+  const pass = req.body.pass;
+  try {
+    const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+    const result = await sql.query`
+      SELECT * FROM password_reset 
+      WHERE mail = ${mail}
+      AND tokenHX = ${tokenHash}
+      AND exp > GETDATE()
+    `;
+
+    if (result.recordset.length === 0) {
+      await sql.query`
+      delete from password_reset      
+      WHERE mail = ${mail}
+    `;
+      return res.status(400).json({ error: "Invalid or expired token" });
+    }
+    await sql.query`
+      update memberJoin set pass=${pass}      
+      WHERE mail = ${mail}
+    `;
+    await sql.query`
+      delete from password_reset      
+      WHERE mail = ${mail}
+    `;
+
+    res.json({ success: true, message: "Password updated" });
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
   }
 };
