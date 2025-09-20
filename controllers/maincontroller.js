@@ -322,6 +322,18 @@ exports.getDirect = (req, res, next) => {
       throw err;
     });
 };
+exports.getWithdrawal_check = (req, res, next) => {
+  const withSL = req.params.withSl;
+  new sql.Request()
+    .input("withdra_sl", withSL)
+    .execute("withdrawal_check_SL")
+    .then((result) => {
+      res.status(200).json({ data: result.recordset });
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
 exports.getDownline = (req, res, next) => {
   const uid = req.params.uid;
   console.log(uid);
