@@ -492,3 +492,18 @@ exports.resetPassword = async (req, res, next) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+exports.withdrawalPay = async (req, res, next) => {
+  const withSl = req.body.withSL;
+  const txn = req.body.txn;
+  try {
+    const result = await new sql.Request()
+      .input("withdra_sl", withSl)
+      .input("txn", txn)
+      .execute("sp_pay_withdrawal_original");
+    res.status(200).json({ data: result.recordset });
+  } catch (err) {
+    console.log(err.toString());
+    res.status(500).json({ error: "Server error" });
+  }
+};
