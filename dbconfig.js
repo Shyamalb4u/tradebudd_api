@@ -9,7 +9,7 @@ const config = {
   options: {
     encrypt: false, // Disable encryption
   },
-  port: process.env.DB_PORT,
+  port: parseInt(process.env.DB_PORT),
 };
 
 module.exports = config;
