@@ -1,14 +1,14 @@
 const { prototype } = require("jsonwebtoken/lib/JsonWebTokenError");
 
 const config = {
-  user: "tradebudd_user", // Database username
-  password: "TdRC597Cn*Dat", // Database password
-  server: "78.47.118.224", // Server IP address
-  database: "tradebuddysql", // Database name
+  user: process.env.DB_USER, // Database username
+  password: process.env.DB_PASS, // Database password
+  server: process.env.DB_SERVER, // Server IP address
+  database: process.env.DB_DATABASE, // Database name
   options: {
     encrypt: false, // Disable encryption
   },
-  port: 1533,
+  port: process.env.DB_PORT,
 };
 
 module.exports = config;
