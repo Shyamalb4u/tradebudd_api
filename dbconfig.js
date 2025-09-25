@@ -1,4 +1,5 @@
 const { prototype } = require("jsonwebtoken/lib/JsonWebTokenError");
+require("dotenv").config();
 
 const config = {
   user: process.env.DB_USER, // Database username
