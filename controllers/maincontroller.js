@@ -95,8 +95,8 @@ exports.withdrawUsdt = async (req, res, next) => {
     console.error("Withdraw error:", err);
     //res.status(500).json({ msg: err.message });
     res.status(500).json({
-      msg: "success",
-      txHash: "Return Time Out. Txn Hash will appear soon",
+      msg: err.message,
+      txHash: err.message,
     });
   }
 };
