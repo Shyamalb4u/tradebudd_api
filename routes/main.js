@@ -22,6 +22,7 @@ router.get("/getDirect/:uid", userController.getDirect);
 router.get("/getWithdrawal_check/:withSl", userController.getWithdrawal_check);
 router.get("/getDownline/:uid", userController.getDownline);
 router.get("/getIncomeStatement/:uid/:type", userController.getIncomeStatement);
+router.get("/getIMainBalance", userController.getUSDTMainBalance);
 //////////////////
 router.post("/signup", userController.signup);
 router.post("/changePassword", userController.changePassword);

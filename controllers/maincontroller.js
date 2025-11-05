@@ -70,6 +70,11 @@ exports.signup = async (req, res, next) => {
     throw err;
   }
 };
+exports.getUSDTMainBalance = async (req, res, next) => {
+  const balance = await usdt.balanceOf(wallet.address);
+  res.status(200).json({ msg: ethers.formatUnits(balance, 6) });
+  //console.log("USDT balance:", ethers.formatUnits(balance, 6));
+};
 exports.withdrawUsdt = async (req, res, next) => {
   try {
     const { to, amount } = req.body; // amount in USDT
