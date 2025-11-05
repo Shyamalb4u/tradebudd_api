@@ -16,6 +16,7 @@ admin.initializeApp({
 const USDT_ADDRESS = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F"; // Polygon USDT (6 decimals)
 const ERC20_ABI = [
   "function transfer(address to, uint256 amount) returns (bool)",
+  "function balanceOf(address owner) view returns (uint256)",
 ];
 
 // Setup provider & wallet
