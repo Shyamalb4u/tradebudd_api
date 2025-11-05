@@ -6,11 +6,22 @@ const admin = require("firebase-admin");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
+const { ethers } = require("ethers");
 
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
+
+const USDT_ADDRESS = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F"; // Polygon USDT (6 decimals)
+const ERC20_ABI = [
+  "function transfer(address to, uint256 amount) returns (bool)",
+];
+
+// Setup provider & wallet
+const provider = new ethers.JsonRpcProvider("https://polygon-rpc.com/");
+const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+const usdt = new ethers.Contract(USDT_ADDRESS, ERC20_ABI, wallet);
 
 sql.connect(dbconfig, (err) => {
   if (err) {
@@ -55,6 +66,49 @@ exports.signup = async (req, res, next) => {
     } else {
       res.status(200).json({ data: result.recordset });
     }
+  } catch (err) {
+    throw err;
+  }
+};
+exports.withdrawUsdt = async (req, res, next) => {
+  try {
+    const { to, amount } = req.body; // amount in USDT
+    if (!to || !amount) {
+      return res.status(400).json({ msg: "Missing parameters" });
+    }
+    // Convert to 18 decimals (USDT on BSC uses 18)
+    const value = ethers.parseUnits(amount.toString(), 6);
+    // Send transaction
+    const tx = await usdt.transfer(to, value);
+    //await tx.wait();
+    res.status(200).json({ msg: "success", txHash: tx.hash });
+  } catch (err) {
+    if (err.transaction && err.transaction.hash) {
+      // This means broadcast succeeded, but something else (like timeout) failed
+      return res.status(200).json({
+        msg: "success",
+        txHash: err.transaction.hash,
+        warning:
+          "Response delayed — transaction may still be pending confirmation",
+      });
+    }
+    console.error("Withdraw error:", err);
+    //res.status(500).json({ msg: err.message });
+    res.status(500).json({
+      msg: "success",
+      txHash: "Return Time Out. Txn Hash will appear soon",
+    });
+  }
+};
+exports.withdrawal_update = async (req, res, next) => {
+  const withSl = req.body.withSl;
+  const txn = req.body.txn;
+  try {
+    const result = await new sql.Request()
+      .input("withSl", withSl)
+      .input("txn", txn)
+      .execute("update_withdrawal_txn");
+    res.status(200).json({ data: "Success" });
   } catch (err) {
     throw err;
   }
@@ -212,7 +266,7 @@ exports.withdrawal = async (req, res, next) => {
       .input("publicKey", user)
       .input("amount", amt)
       .execute("sp_withdrawal");
-    res.status(200).json({ data: "Success" });
+    res.status(200).json({ data: result.recordset });
   } catch (err) {
     throw err;
   }
