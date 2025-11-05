@@ -74,7 +74,7 @@ exports.signup = async (req, res, next) => {
 exports.getUSDTMainBalance = async (req, res, next) => {
   //const balance = await usdt.balanceOf(wallet.address);
   const value = ethers.parseUnits("1", 6);
-  res.status(200).json({ msg: value });
+  res.status(200).json({ msg: value.toString() });
   //res.status(200).json({ msg: ethers.formatUnits(balance, 6) });
   //console.log("USDT balance:", ethers.formatUnits(balance, 6));
 };
