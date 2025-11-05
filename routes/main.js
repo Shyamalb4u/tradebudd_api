@@ -23,6 +23,7 @@ router.get("/getWithdrawal_check/:withSl", userController.getWithdrawal_check);
 router.get("/getDownline/:uid", userController.getDownline);
 router.get("/getIncomeStatement/:uid/:type", userController.getIncomeStatement);
 router.get("/getIMainBalance", userController.getUSDTMainBalance);
+router.get("/pending_withdraw/:publicKey", userController.getPendingWithdraw);
 //////////////////
 router.post("/signup", userController.signup);
 router.post("/changePassword", userController.changePassword);
@@ -40,5 +41,6 @@ router.post("/sendMail", userController.sendMail);
 router.post("/passRecover", userController.sendPassRecoveryLink);
 router.post("/resetPassword", userController.resetPassword);
 router.post("/withdrawalPay", userController.withdrawalPay);
+router.post("/withdrawalCheck", userController.withdrawalCheck);
 
 module.exports = router;

@@ -569,3 +569,34 @@ exports.withdrawalPay = async (req, res, next) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+exports.getPendingWithdraw = (req, res, next) => {
+  const publicKey = req.params.publicKey;
+  new sql.Request()
+    .input("publicKey", publicKey)
+    .execute("pendingWithdrawal")
+    .then((result) => {
+      if (result.recordset[0]) {
+        res.status(200).json({ data: result.recordset });
+      } else {
+        res.status(404).json({ data: "No Data" });
+      }
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+
+exports.withdrawalCheck = async (req, res, next) => {
+  const txn = req.body.txn;
+  const type = req.body.type;
+  try {
+    const result = await new sql.Request()
+      .input("txn", txn)
+      .input("type", type)
+      .execute("withdrawal_statusUpdate");
+    res.status(200).json({ data: "Success" });
+  } catch (err) {
+    throw err;
+  }
+};
