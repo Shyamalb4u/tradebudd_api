@@ -107,9 +107,11 @@ exports.getUser = (req, res, next) => {
     .execute("getUserProfile")
     .then((result) => {
       if (result.recordset[0]) {
-        res.status(200).json({ data: result.recordset, extra: dbconfig });
+        res
+          .status(200)
+          .json({ data: result.recordset, extra: result.recordset });
       } else {
-        res.status(404).json({ data: "No Data", extra: dbconfig });
+        res.status(404).json({ data: "No Data", extra: result.recordset });
       }
     })
     .catch((err) => {
