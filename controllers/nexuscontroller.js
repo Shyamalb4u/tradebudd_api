@@ -107,11 +107,9 @@ exports.getUser = (req, res, next) => {
     .execute("getUserProfile")
     .then((result) => {
       if (result.recordset[0]) {
-        res
-          .status(200)
-          .json({ data: result.recordset, extra: result.recordset });
+        res.status(200).json({ data: result.recordset, extra: uid });
       } else {
-        res.status(404).json({ data: "No Data", extra: result.recordset });
+        res.status(404).json({ data: "No Data", extra: uid });
       }
     })
     .catch((err) => {
