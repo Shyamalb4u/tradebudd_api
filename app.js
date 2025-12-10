@@ -5,7 +5,7 @@ const sql = require("mssql");
 const dbconfig = require("./dbconfig");
 const userRouter = require("./routes/main");
 const nexusUserRouter = require("./routes/nexus");
-//const schedule = require("node-schedule"); some erroe happned
+//const schedule = require("node-schedule"); some erroe happned check it
 
 const app = express();
 app.use(bodyParser.json());
