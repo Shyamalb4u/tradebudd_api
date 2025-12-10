@@ -31,10 +31,11 @@ app.use((error, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 8080;
-sql.connect(dbconfig, (err) => {
-  if (err) {
-    throw err;
-  }
-  app.listen(PORT);
-  console.log(`app is running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Running on port ${PORT}`));
+// sql.connect(dbconfig, (err) => {
+//   if (err) {
+//     throw err;
+//   }
+//   app.listen(PORT);
+//   console.log(`app is running on port ${PORT}`);
+// });
