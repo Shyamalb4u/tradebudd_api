@@ -5,7 +5,7 @@ const sql = require("mssql");
 const dbconfig = require("./dbconfig");
 const userRouter = require("./routes/main");
 const nexusUserRouter = require("./routes/nexus");
-//const schedule = require("node-schedule"); changes in .env changed again
+//const schedule = require("node-schedule"); some erroe happned
 
 const app = express();
 app.use(bodyParser.json());
