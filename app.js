@@ -4,6 +4,7 @@ const sql = require("mssql");
 
 const dbconfig = require("./dbconfig");
 const userRouter = require("./routes/main");
+const nexusUserRouter = require("./routes/nexus");
 //const schedule = require("node-schedule"); changes in .env changed again
 
 const app = express();
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api", userRouter);
+app.use("/nexusapi", nexusUserRouter);
 
 app.use((error, req, res, next) => {
   console.log(error);
