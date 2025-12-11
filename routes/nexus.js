@@ -18,7 +18,7 @@ router.get("/getUser/:id", userController.getUser);
 // router.get("/getDownline/:uid", userController.getDownline);
 // router.get("/getIncomeStatement/:uid/:type", userController.getIncomeStatement);
 // //////////////////
-// router.post("/signup", userController.signup);
+router.post("/signup", userController.signup);
 // router.post("/booking", userController.booking);
 // router.post("/withdrawalCheck", userController.withdrawalCheck);
 // router.post("/topup", userController.topup);

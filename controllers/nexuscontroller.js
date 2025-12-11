@@ -37,30 +37,34 @@ const usdt = new ethers.Contract(USDT_ADDRESS, ERC20_ABI, wallet);
 //   },
 // });
 
-// exports.signup = async (req, res, next) => {
-//   const spn = req.body.spn;
-//   const PubKey = req.body.public;
-//   const amt = req.body.amt;
-//   const txn = req.body.txn;
-//   try {
-//     const result = await new sql.Request()
-//       .input("intro_id", spn)
-//       .input("publicKey", PubKey)
-//       .input("amt", amt)
-//       .input("txn", txn)
-//       .execute("registration");
-//     console.log(result.recordset[0].uid);
-//     if (result.recordset[0].uid === "MAIL") {
-//       res.status(404).json({ data: result.recordset[0].uid });
-//     } else if (result.recordset[0].uid === "INTRO") {
-//       res.status(404).json({ data: "Sponsor Not Exists" });
-//     } else {
-//       res.status(200).json({ data: result.recordset });
-//     }
-//   } catch (err) {
-//     throw err;
-//   }
-// };
+exports.signup = async (req, res, next) => {
+  const spn = req.body.spn;
+  const name = req.body.name;
+  const PubKey = req.body.public;
+  const amt = req.body.amt;
+  const txn = req.body.txn;
+  try {
+    const pool = await pool2;
+    const result = await pool
+      .request()
+      .input("intro_id", spn)
+      .input("name", name)
+      .input("publicKey", PubKey)
+      .input("amt", amt)
+      .input("txn", txn)
+      .execute("registration");
+    console.log(result.recordset[0].uid);
+    if (result.recordset[0].uid === "MAIL") {
+      res.status(404).json({ data: result.recordset[0].uid });
+    } else if (result.recordset[0].uid === "INTRO") {
+      res.status(404).json({ data: "Sponsor Not Exists" });
+    } else {
+      res.status(200).json({ data: result.recordset });
+    }
+  } catch (err) {
+    throw err;
+  }
+};
 // exports.withdrawUsdt = async (req, res, next) => {
 //   try {
 //     const { to, amount } = req.body; // amount in USDT
