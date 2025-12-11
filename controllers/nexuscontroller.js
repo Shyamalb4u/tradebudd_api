@@ -118,19 +118,19 @@ exports.getUser = async (req, res, next) => {
     });
 };
 
-// exports.booking = async (req, res, next) => {
-//   const txn = req.body.txn;
-//   const type = req.body.type;
-//   try {
-//     const result = await new sql.Request()
-//       .input("txn", txn)
-//       .input("type", type)
-//       .execute("success_Activation");
-//     res.status(200).json({ data: "Success" });
-//   } catch (err) {
-//     throw err;
-//   }
-// };
+exports.booking = async (req, res, next) => {
+  const txn = req.body.txn;
+  const type = req.body.type;
+  try {
+    const result = await new sql.Request()
+      .input("txn", txn)
+      .input("type", type)
+      .execute("success_Activation");
+    res.status(200).json({ data: "Success" });
+  } catch (err) {
+    throw err;
+  }
+};
 // exports.withdrawalCheck = async (req, res, next) => {
 //   const txn = req.body.txn;
 //   const type = req.body.type;
@@ -190,22 +190,22 @@ exports.getUser = async (req, res, next) => {
 //     throw err;
 //   }
 // };
-// exports.getPendingActivation = (req, res, next) => {
-//   const publicKey = req.params.publicKey;
-//   new sql.Request()
-//     .input("publicKey", publicKey)
-//     .execute("getPending_activation")
-//     .then((result) => {
-//       if (result.recordset[0]) {
-//         res.status(200).json({ data: result.recordset });
-//       } else {
-//         res.status(404).json({ data: "No Data" });
-//       }
-//     })
-//     .catch((err) => {
-//       throw err;
-//     });
-// };
+exports.getPendingActivation = (req, res, next) => {
+  const publicKey = req.params.publicKey;
+  new sql.Request()
+    .input("publicKey", publicKey)
+    .execute("getPending_activation")
+    .then((result) => {
+      if (result.recordset[0]) {
+        res.status(200).json({ data: result.recordset });
+      } else {
+        res.status(404).json({ data: "No Data" });
+      }
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
 // exports.getPendingWithdraw = (req, res, next) => {
 //   const publicKey = req.params.publicKey;
 //   new sql.Request()
