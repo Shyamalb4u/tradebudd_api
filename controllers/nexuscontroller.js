@@ -122,7 +122,9 @@ exports.booking = async (req, res, next) => {
   const txn = req.body.txn;
   const type = req.body.type;
   try {
-    const result = await new sql.Request()
+    const pool = await pool2;
+    const result = await pool
+      .request()
       .input("txn", txn)
       .input("type", type)
       .execute("success_Activation");
@@ -190,9 +192,11 @@ exports.booking = async (req, res, next) => {
 //     throw err;
 //   }
 // };
-exports.getPendingActivation = (req, res, next) => {
+exports.getPendingActivation = async (req, res, next) => {
   const publicKey = req.params.publicKey;
-  new sql.Request()
+  const pool = await pool2;
+  await pool
+    .request()
     .input("publicKey", publicKey)
     .execute("getPending_activation")
     .then((result) => {
