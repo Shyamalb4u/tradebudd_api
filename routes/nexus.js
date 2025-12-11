@@ -10,10 +10,10 @@ router.get(
 );
 // router.get("/pending_withdraw/:publicKey", userController.getPendingWithdraw);
 // router.get("/genealogy/:publicKey", userController.getGenealogy);
-// router.get(
-//   "/getDashboardBalance/:publicKey",
-//   userController.getDashboardBalance
-// );
+router.get(
+  "/getDashboardBalance/:publicKey",
+  userController.getDashboardBalance
+);
 // router.get("/getMyPackages/:phrases", userController.getMyPackages);
 // router.get("/getDownline/:uid", userController.getDownline);
 // router.get("/getIncomeStatement/:uid/:type", userController.getIncomeStatement);
