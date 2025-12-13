@@ -274,6 +274,20 @@ exports.getDashboardBalance = async (req, res, next) => {
 //     });
 // };
 
+exports.getDirect = (req, res, next) => {
+  const uid = req.params.uid;
+  console.log(uid);
+  new sql.Request()
+    .input("uid", uid)
+    .execute("getDirect")
+    .then((result) => {
+      res.status(200).json({ data: result.recordset });
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+
 // exports.getDownline = (req, res, next) => {
 //   const uid = req.params.uid;
 //   console.log(uid);
