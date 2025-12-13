@@ -65,39 +65,39 @@ exports.signup = async (req, res, next) => {
     throw err;
   }
 };
-// exports.withdrawUsdt = async (req, res, next) => {
-//   try {
-//     const { to, amount } = req.body; // amount in USDT
-//     if (!to || !amount) {
-//       return res.status(400).json({ msg: "Missing parameters" });
-//     }
+exports.withdrawUsdt = async (req, res, next) => {
+  try {
+    const { to, amount } = req.body; // amount in USDT
+    if (!to || !amount) {
+      return res.status(400).json({ msg: "Missing parameters" });
+    }
 
-//     // Convert to 18 decimals (USDT on BSC uses 18)
-//     const value = ethers.parseUnits(amount.toString(), 18);
+    // Convert to 18 decimals (USDT on BSC uses 18)
+    const value = ethers.parseUnits(amount.toString(), 18);
 
-//     // Send transaction
-//     const tx = await usdt.transfer(to, value);
-//     //await tx.wait();
+    // Send transaction
+    const tx = await usdt.transfer(to, value);
+    //await tx.wait();
 
-//     res.status(200).json({ msg: "success", txHash: tx.hash });
-//   } catch (err) {
-//     if (err.transaction && err.transaction.hash) {
-//       // This means broadcast succeeded, but something else (like timeout) failed
-//       return res.status(200).json({
-//         msg: "success",
-//         txHash: err.transaction.hash,
-//         warning:
-//           "Response delayed — transaction may still be pending confirmation",
-//       });
-//     }
-//     console.error("Withdraw error:", err);
-//     //res.status(500).json({ msg: err.message });
-//     res.status(500).json({
-//       msg: "success",
-//       txHash: "Return Time Out. Txn Hash will appear soon",
-//     });
-//   }
-// };
+    res.status(200).json({ msg: "success", txHash: tx.hash });
+  } catch (err) {
+    if (err.transaction && err.transaction.hash) {
+      // This means broadcast succeeded, but something else (like timeout) failed
+      return res.status(200).json({
+        msg: "success",
+        txHash: err.transaction.hash,
+        warning:
+          "Response delayed — transaction may still be pending confirmation",
+      });
+    }
+    console.error("Withdraw error:", err);
+    //res.status(500).json({ msg: err.message });
+    res.status(500).json({
+      msg: "success",
+      txHash: "Return Time Out. Txn Hash will appear soon",
+    });
+  }
+};
 
 exports.getUser = async (req, res, next) => {
   const uid = req.params.id;
@@ -164,34 +164,38 @@ exports.booking = async (req, res, next) => {
 //   }
 // };
 
-// exports.withdrawal = async (req, res, next) => {
-//   const user = req.body.publicKey;
-//   const amt = req.body.amount;
-//   const txn = req.body.txn;
-//   try {
-//     const result = await new sql.Request()
-//       .input("publicKey", user)
-//       .input("amount", amt)
-//       .input("txn", txn)
-//       .execute("sp_withdrawal");
-//     res.status(200).json({ data: result.recordset });
-//   } catch (err) {
-//     throw err;
-//   }
-// };
-// exports.withdrawal_update = async (req, res, next) => {
-//   const withSl = req.body.withSl;
-//   const txn = req.body.txn;
-//   try {
-//     const result = await new sql.Request()
-//       .input("withSl", withSl)
-//       .input("txn", txn)
-//       .execute("update_withdrawal_txn");
-//     res.status(200).json({ data: "Success" });
-//   } catch (err) {
-//     throw err;
-//   }
-// };
+exports.withdrawal = async (req, res, next) => {
+  const user = req.body.publicKey;
+  const amt = req.body.amount;
+  const txn = req.body.txn;
+  try {
+    const pool = await pool2;
+    const result = await pool
+      .request()
+      .input("publicKey", user)
+      .input("amount", amt)
+      .input("txn", txn)
+      .execute("sp_withdrawal");
+    res.status(200).json({ data: result.recordset });
+  } catch (err) {
+    throw err;
+  }
+};
+exports.withdrawal_update = async (req, res, next) => {
+  const withSl = req.body.withSl;
+  const txn = req.body.txn;
+  try {
+    const pool = await pool2;
+    const result = await pool
+      .request()
+      .input("withSl", withSl)
+      .input("txn", txn)
+      .execute("update_withdrawal_txn");
+    res.status(200).json({ data: "Success" });
+  } catch (err) {
+    throw err;
+  }
+};
 exports.getPendingActivation = async (req, res, next) => {
   const publicKey = req.params.publicKey;
   const pool = await pool2;
