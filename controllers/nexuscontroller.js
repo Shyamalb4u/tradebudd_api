@@ -274,10 +274,12 @@ exports.getDashboardBalance = async (req, res, next) => {
 //     });
 // };
 
-exports.getDirect = (req, res, next) => {
+exports.getDirect = async (req, res, next) => {
   const uid = req.params.uid;
   console.log(uid);
-  new sql.Request()
+  const pool = await pool2;
+  await pool
+    .request()
     .input("uid", uid)
     .execute("getDirect")
     .then((result) => {
