@@ -261,9 +261,11 @@ exports.getDashboardBalance = async (req, res, next) => {
       throw err;
     });
 };
-exports.getMyPackages = (req, res, next) => {
+exports.getMyPackages = async (req, res, next) => {
   const uid = req.params.phrases;
-  new sql.Request()
+  const pool = await pool2;
+  await pool
+    .request()
     .input("uid", uid)
     .execute("getMyPackage")
     .then((result) => {
