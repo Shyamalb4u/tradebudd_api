@@ -261,18 +261,18 @@ exports.getDashboardBalance = async (req, res, next) => {
       throw err;
     });
 };
-// exports.getMyPackages = (req, res, next) => {
-//   const uid = req.params.phrases;
-//   new sql.Request()
-//     .input("uid", uid)
-//     .execute("getMyPackage")
-//     .then((result) => {
-//       res.status(200).json({ data: result.recordset });
-//     })
-//     .catch((err) => {
-//       throw err;
-//     });
-// };
+exports.getMyPackages = (req, res, next) => {
+  const uid = req.params.phrases;
+  new sql.Request()
+    .input("uid", uid)
+    .execute("getMyPackage")
+    .then((result) => {
+      res.status(200).json({ data: result.recordset });
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
 
 exports.getDirect = async (req, res, next) => {
   const uid = req.params.uid;
