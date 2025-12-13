@@ -290,19 +290,20 @@ exports.getDirect = async (req, res, next) => {
     });
 };
 
-// exports.getDownline = (req, res, next) => {
-//   const uid = req.params.uid;
-//   console.log(uid);
-//   new sql.Request()
-//     .input("uid", uid)
-//     .execute("getDownline_list")
-//     .then((result) => {
-//       res.status(200).json({ data: result.recordset });
-//     })
-//     .catch((err) => {
-//       throw err;
-//     });
-// };
+exports.getDownline = async (req, res, next) => {
+  const uid = req.params.uid;
+  const pool = await pool2;
+  await pool
+    .request()
+    .input("uid", uid)
+    .execute("getDownline_list")
+    .then((result) => {
+      res.status(200).json({ data: result.recordset });
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
 // exports.getIncomeStatement = (req, res, next) => {
 //   const uid = req.params.uid;
 //   const type = req.params.type;

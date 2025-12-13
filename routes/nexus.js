@@ -15,7 +15,7 @@ router.get(
   userController.getDashboardBalance
 );
 // router.get("/getMyPackages/:phrases", userController.getMyPackages);
-// router.get("/getDownline/:uid", userController.getDownline);
+router.get("/getDownline/:uid", userController.getDownline);
 router.get("/getDirect/:uid", userController.getDirect);
 // router.get("/getIncomeStatement/:uid/:type", userController.getIncomeStatement);
 // //////////////////
