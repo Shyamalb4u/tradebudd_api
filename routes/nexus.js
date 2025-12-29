@@ -22,7 +22,7 @@ router.get("/getIncomeStatement/:uid/:type", userController.getIncomeStatement);
 router.post("/signup", userController.signup);
 router.post("/booking", userController.booking);
 // router.post("/withdrawalCheck", userController.withdrawalCheck);
-// router.post("/topup", userController.topup);
+router.post("/topup", userController.topup);
 router.post("/withdrawUsdt", userController.withdrawUsdt);
 router.post("/withdrawal", userController.withdrawal);
 router.post("/withdrawal_update", userController.withdrawal_update);
