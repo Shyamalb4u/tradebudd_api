@@ -152,7 +152,9 @@ exports.topup = async (req, res, next) => {
   const txn = req.body.txn;
   const mode = req.body.mode;
   try {
-    const result = await new sql.Request()
+    const pool = await pool2;
+    const result = await pool
+      .request()
       .input("publicKey", publicKey)
       .input("amt", amt)
       .input("txn", txn)
